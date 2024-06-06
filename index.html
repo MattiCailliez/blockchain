@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Battle game</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="./build/contracts/Person.js"></script>
+  </head>
+  <body>
+    <p id="txStatus"></p>
+    <div id="zombies"></div>
+
+    <script>
+      var personContract;
+      var userAccount;
+
+      function startApp() {
+          personContract = new web3.eth.Contract(contract.abi, "0xB36E86619AB7a3396fA20af6127c7e171EB5899D");
+
+          console.log(getFighterByOwner());
+      }
+
+      window.addEventListener('load', function() {
+          // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+          if (typeof window.ethereum !== 'undefined') {
+              window.web3 = new Web3(ethereum);
+
+              // Now you can start your app & access web3 freely:
+              startApp()
+          } else {
+              // Handle the case where the user doesn't have Metamask installed
+              // Probably show them a message prompting them to install Metamask
+              $("#txStatus").text("You need to install Metamask to use this site!");
+          }
+      })
+
+      function getFighterByOwner() {
+          return personContract.methods.getFightersByOwner().call();
+      }
+    </script>
+  </body>
+</html> 
